@@ -35,8 +35,9 @@ header {
   border-top: solid 4px #001536;
 }
 
-#new_book_button,
-#display_books_button {
+#new_book_button
+/* ,
+#display_books_button  */ {
   margin: 40px 50px 56px;
   background-color: rgb(191, 255, 183);
   width: 161px;
@@ -47,8 +48,34 @@ header {
   font-weight: bold;
 }
 
+.display_books_button_class {
+  margin: 40px 50px 56px;
+  background-color: rgb(191, 255, 183);
+  width: 161px;
+  height: 100px;
+  border: 3px solid rgb(0, 21, 54);
+  border-radius: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.hide_books_button_class {
+  margin: 40px 50px 56px;
+  background-color: #ff777a;
+  width: 161px;
+  height: 100px;
+  border: 3px solid rgb(0, 21, 54);
+  border-radius: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.hide_books_button_class:hover {
+  background-color: rgb(199, 87, 89);
+}
+
 #new_book_button:hover,
-#display_books_button:hover {
+.display_books_button_class:hover {
   background-color: rgba(99, 209, 84, 0.623);
   /* background-color: rgb(26, 255, 0); */
   /* /* background-color: rgba(64, 148, 53, 0.603); */
@@ -95,7 +122,16 @@ td button {
 }
 
 td button:hover {
-  background-color: #fd353ca6;
+  /* background-color: #fd353ca6; */
+  background-color: rgb(199, 87, 89);
+}
+
+td button:nth-of-type(2) {
+  background-color: rgb(191, 255, 183);
+}
+
+td button:nth-of-type(2):hover {
+  background-color: rgba(99, 209, 84, 0.623);
 }
 
 .buttons_div {

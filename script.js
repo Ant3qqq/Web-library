@@ -4,6 +4,7 @@
 const new_book_button = document.getElementById("new_book_button");
 const books_table = document.getElementById("books_table");
 const display_books_button = document.getElementById("display_books_button");
+display_books_button.classList.add("display_books_button_class");
 const body_element = document.querySelector("body");
 
 // deklaracja obiektu book
@@ -62,6 +63,7 @@ function createNewBookPanel() {
   popup_pages_input.type = "number";
   popup_pages_input.placeholder = "Pages";
   popup_pages_input.classList.add("popup_input_number");
+  popup_pages_input.step = 1;
   popup_pages_input.id = "pages";
   popup.appendChild(popup_pages_br);
   popup.appendChild(popup_pages_span);
@@ -152,7 +154,7 @@ popup_submit_button.addEventListener("click", () => {
     const main_div = document.querySelector("div.newBookPanel");
     body_element.removeChild(main_div);
 
-    displayBooks();
+    renewBooks();
   }
 });
 
@@ -167,7 +169,7 @@ function deleteBook(book_id) {
   const td_being_deleted = document.getElementById("td_nr_" + book_id);
   destroy(td_being_deleted);
   myLibrary.splice(book_id, 1);
-  displayBooks();
+  renewBooks();
 }
 
 // tworzenie przycisków delete i togglereadStatus
@@ -194,6 +196,58 @@ function createToggleButtonReadStatus(index) {
 // funkcja wyświetlająca książki
 var books_table_tbody_tr;
 function displayBooks() {
+  if (display_books_button.innerText == "DISPLAY BOOKS") {
+    books_table.innerText = "";
+    const books_table_tbody = document.createElement("tbody");
+    // let books_table_tbody_tr = document.createElement('tr');
+
+    myLibrary.forEach((item, index) => {
+      // tworzy diva z info o książkach
+      const books_info_div = document.createElement("div");
+      books_info_div.className = "book_info_div";
+      books_info_div.innerHTML += `  ${item.printInfo()} `;
+
+      // tworzenie buttonów delete i toggle
+      const del_button = createDeleteButton(index);
+      const toggleReadStatus_button = createToggleButtonReadStatus(index);
+
+      // tworzy diva na przyciski del i toggle
+      const buttons_div = document.createElement("div");
+      buttons_div.className = "buttons_div";
+
+      buttons_div.appendChild(del_button);
+      buttons_div.appendChild(toggleReadStatus_button);
+
+      // tworzy komówrki tabeli (puste)
+      let table_cells = document.createElement("td");
+      table_cells.id = "td_nr_" + index;
+
+      table_cells.appendChild(buttons_div);
+      table_cells.appendChild(books_info_div);
+      // tworzenie wierszy
+      if (index % 5 == 0) {
+        // console.log("dupa");
+        books_table_tbody_tr = document.createElement("tr");
+      }
+
+      books_table_tbody_tr.appendChild(table_cells);
+      books_table_tbody.appendChild(books_table_tbody_tr);
+      books_table.appendChild(books_table_tbody);
+      // books_table.classList.toggle("hidden")
+      display_books_button.classList.remove("display_books_button_class");
+      display_books_button.classList.add("hide_books_button_class");
+    });
+    localStorage.setItem("myLibraryLocalCopy", JSON.stringify(myLibrary));
+    display_books_button.innerText = "HIDE BOOKS";
+  } else if (display_books_button.innerText == "HIDE BOOKS") {
+    books_table.innerText = "";
+    display_books_button.innerText = "DISPLAY BOOKS";
+    display_books_button.classList.add("display_books_button_class");
+    display_books_button.classList.remove("hide_books_button_class");
+  }
+}
+
+function renewBooks() {
   books_table.innerText = "";
   const books_table_tbody = document.createElement("tbody");
   // let books_table_tbody_tr = document.createElement('tr');
@@ -231,8 +285,11 @@ function displayBooks() {
     books_table_tbody.appendChild(books_table_tbody_tr);
     books_table.appendChild(books_table_tbody);
     // books_table.classList.toggle("hidden")
+    display_books_button.classList.remove("display_books_button_class");
+    display_books_button.classList.add("hide_books_button_class");
   });
   localStorage.setItem("myLibraryLocalCopy", JSON.stringify(myLibrary));
+  display_books_button.innerText = "HIDE BOOKS";
 }
 
 function toggleReadStatus(book_id) {
@@ -241,7 +298,7 @@ function toggleReadStatus(book_id) {
   } else {
     myLibrary[book_id].read = "read";
   }
-  displayBooks();
+  renewBooks();
 }
 
 // lokalne odczytywanie
