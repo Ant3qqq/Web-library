@@ -196,7 +196,10 @@ function createToggleButtonReadStatus(index) {
 // funkcja wyświetlająca książki
 var books_table_tbody_tr;
 function displayBooks() {
-  if (display_books_button.innerText == "DISPLAY BOOKS") {
+  if (
+    display_books_button.innerText == "DISPLAY BOOKS" &&
+    myLibrary.length > 0
+  ) {
     books_table.innerText = "";
     const books_table_tbody = document.createElement("tbody");
     // let books_table_tbody_tr = document.createElement('tr');
@@ -244,6 +247,10 @@ function displayBooks() {
     display_books_button.innerText = "DISPLAY BOOKS";
     display_books_button.classList.add("display_books_button_class");
     display_books_button.classList.remove("hide_books_button_class");
+  } else if (myLibrary.length == 0) {
+    alert(
+      "You have no books in your library, use 'NEW BOOK' button to add books."
+    );
   }
 }
 
